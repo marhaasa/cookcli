@@ -83,11 +83,16 @@ pub fn run(_ctx: &Context, args: ImportArgs) -> Result<()> {
 
     Example:
         Place @bacon strips{{1%kg}} on a baking sheet and glaze with @syrup{{1/2%tbsp}}.
+    
+    Many recipes involve repetitive ingredient preparations, such as peeling or chopping. To simplify this, you can define these common preparations directly within the ingredient reference using shorthand syntax:
+    
+    Example:
+        Mix @onion{{1}}(peeled and finely chopped) and @garlic{{2%cloves}}(peeled and minced) into paste.
 
     Cookware
 
     You can define any necessary cookware with # symbol. If the cookware's
-    name contains multiple words, indicate the end of the name with {{}}.
+    name contains multiple words, indicate the end of the name with {{}}. For cookware it is especially important that you only use # the first time it is mentioned or else cooklang will create a cookware list with repeated items.
 
     Example:
         Place the potatoes into a #pot.
@@ -136,7 +141,7 @@ pub fn run(_ctx: &Context, args: ImportArgs) -> Result<()> {
                 .header("anthropic-version", "2023-06-01")
                 .header("content-type", "application/json")
                 .json(&serde_json::json!({
-                    "model": "claude-3-5-sonnet-20241022",
+                    "model": "claude-sonnet-4-20250514",
                     "max_tokens": 1000,
                     "messages": [
                         {
