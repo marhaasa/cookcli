@@ -2,8 +2,13 @@
 {% set ns = namespace() %}
 {%- set ns.total = 0 %}
 {%- for ingredient in ingredients %}
-{%- set price = db(ingredient.name ~ '.shopping.price_per_unit') * (ingredient.quantity.value | float) %}
-* {{ ingredient.name }}: ${{ price | format_price(2) }}
+{%- if ingredient.quantity and ingredient.quantity.value %}
+{%- set quantity = ingredient.quantity.value | float %}
+{%- else %}
+{%- set quantity = 1.0 %}
+{%- endif %}
+{%- set price = db(ingredient.name ~ '.shopping.price_per_unit') * quantity %}
+* {{ ingredient.name }} ({{ ingredient.quantity or "to taste" }}): ${{ price | format_price(2) }}
 {%- set ns.total = ns.total + price %}
 {%- endfor %}
 
